@@ -13,7 +13,7 @@ CREATE TABLE gUser(
 	route VARCHAR(50)
 );
     
-DROP TABLE IF EXISTS gUser;    
+DROP TABLE IF EXISTS developer;    
 CREATE TABLE developer(
 	idDeveloper INT PRIMARY KEY,
 	nameDeveloper VARCHAR(20),
@@ -23,7 +23,7 @@ CREATE TABLE developer(
 
 DROP TABLE IF EXISTS gameUser;
 CREATE TABLE gameUser(
-	idUser INT,
+    idUser INT,
     idGame INT,
     PRIMARY KEY(idUser, idGame),
     FOREIGN KEY(idUser) REFERENCES gUser(idUser) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -31,7 +31,7 @@ CREATE TABLE gameUser(
 
 INSERT INTO gUser VALUES
 (1, 'CarlosG', 'carlos.g@email.com', '600111222', '2023-01-15', '/profiles/carlosg.jpg'),
-(2, 'AnaL', 'ana.lopez@email.com', '611222333', '2023-02-10', '/profiles/anal.jpg'),
+(2, 'AnaP', 'ana.p@email.com', '611222333', '2023-02-10', '/profiles/anap.jpg'),
 (3, 'DavidM', 'david.m@email.com', '622333444', '2023-02-28', '/profiles/davidm.jpg'),
 (4, 'LauraS', 'laura.s@email.com', '633444555', '2023-03-05', '/profiles/lauras.jpg'),
 (5, 'PedroR', 'pedro.r@email.com', '644555666', '2023-03-20', '/profiles/pedror.jpg'),
