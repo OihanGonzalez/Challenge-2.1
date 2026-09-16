@@ -4,11 +4,13 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ivanv
  */
-public class Game {
+public class Game implements Serializable{
     private int gameId;
     private int developerId;
     private String gameName;
