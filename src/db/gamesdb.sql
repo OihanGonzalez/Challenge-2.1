@@ -9,7 +9,7 @@ CREATE TABLE gUser(
 	nameUser VARCHAR(20),
 	email VARCHAR(50),
 	phoneNumber CHAR(9),
-	registrationDate DATE,
+	registrationDate DATE DEFAULT CURRENT_DATE,
 	route VARCHAR(50)
 );
     
