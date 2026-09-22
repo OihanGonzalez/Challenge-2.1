@@ -20,7 +20,7 @@ public class User {
         this.nameUser=nameUser;
         this.email=email;
         this.phoneNumber=phoneNumber;
-        this.registrationDate=registrationDate;
+        this.registrationDate = LocalDate.now();
         this.route=route;
     }
     
@@ -62,7 +62,11 @@ public class User {
     public void setRoute(String route) {
         this.route = route;
     }
-    
+
+    @Override
+    public String toString() {
+        return "User{" + "idUser=" + idUser + ", nameUser=" + nameUser + ", email=" + email + ", phoneNumber=" + phoneNumber + ", registrationDate=" + registrationDate + ", route=" + route + '}';
+    }
     
     
 }
