@@ -9,7 +9,7 @@ CREATE TABLE gUser(
 	nameUser VARCHAR(20),
 	email VARCHAR(50),
 	phoneNumber CHAR(9),
-	registrationDate DATE DEFAULT CURRENT_DATE,
+	registrationDate DATE DEFAULT (CURRENT_DATE),
 	route VARCHAR(50)
 );
     
@@ -26,7 +26,7 @@ CREATE TABLE gameUser(
     idUser INT,
     idGame INT,
     PRIMARY KEY(idUser, idGame),
-    FOREIGN KEY(idUser) REFERENCES gUser(idUser) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(idUser) REFERENCES gUser(idUser) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO gUser VALUES
