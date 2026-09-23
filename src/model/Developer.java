@@ -5,6 +5,7 @@ package model;
  * @author CJ
  */
 public class Developer {
+
     private int developerID;
     private String developerName;
     private String country;
