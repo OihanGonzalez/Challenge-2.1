@@ -47,6 +47,22 @@ public class DBImplementationUser implements UserDAO {
             e.printStackTrace();
         }
     }
+    
+    //creation of a setUser method to avoid repeating the date conversion code in each User method
+    private User setUser(java.sql.ResultSet rs) throws SQLException {
+        //conversion Date (from db) to LocalDate 
+        java.sql.Date sqlDate = rs.getDate("registrationDate");
+        java.time.LocalDate registrationDate = (sqlDate != null) ? sqlDate.toLocalDate() : null;
+
+        return new User(
+                rs.getString("idUser"),
+                rs.getString("nameUser"),
+                rs.getString("email"),
+                rs.getString("phoneNumber"),
+                registrationDate,
+                rs.getString("route")
+        );
+    }
 
     @Override 
     public List<User> getAllUser() {
@@ -56,18 +72,11 @@ public class DBImplementationUser implements UserDAO {
             stmt = con.prepareStatement(SQLSELECTALL);
             java.sql.ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                //conversión Date de la db a LocalDate 
+                
                 java.sql.Date sqlDate = rs.getDate("registrationDate");
                 java.time.LocalDate registrationDate = (sqlDate != null) ? sqlDate.toLocalDate() : null;
                 
-                users.add(new User(
-                        rs.getString("idUser"),
-                        rs.getString("nameUser"),
-                        rs.getString("email"),
-                        rs.getString("phoneNumber"),
-                        registrationDate,
-                        rs.getString("route")
-                ));
+                users.add(setUser(rs));
             }
             rs.close();
             stmt.close();
@@ -78,28 +87,25 @@ public class DBImplementationUser implements UserDAO {
         return users;
     }
     
-//    @Override
-//	public User getUsertById(User user) {
-//		this.openConnection();
-//		try {
-//			stmt = con.prepareStatement(SQLSELECTBYID);
-//			stmt.setString(1, client.getIdClient());
-//			java.sql.ResultSet rs = stmt.executeQuery();
-//			if (rs.next()) {
-//				Client found = new Client(
-//						rs.getString("id_client"),
-//						rs.getString("name_client"),
-//						rs.getString("surname_client"),
-//						rs.getInt("age_client"),
-//						rs.getInt("phone_client"),
-//						rs.getString("email_client")
-//						);
-//				rs.close(); stmt.close(); con.close();
-//				return found;
-//			}
-//			rs.close(); stmt.close(); con.close();
-//		} catch (SQLException e) { System.out.println("Error: " + e.getMessage()); }
-//		return null;
-//	}
+    @Override
+	public User getUserById(User user) { 
+		this.openConnection(); 
+		try {
+			stmt = con.prepareStatement(SQLSELECTBYID);
+			stmt.setString(1, user.getIdUser());
+			java.sql.ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				User found = setUser(rs);
+				rs.close(); 
+                                stmt.close(); 
+                                con.close();
+				return found;
+			}
+			rs.close(); 
+                        stmt.close(); 
+                        con.close();
+		} catch (SQLException e) { System.out.println("Error: " + e.getMessage()); }
+		return null;
+	}
 
 }
