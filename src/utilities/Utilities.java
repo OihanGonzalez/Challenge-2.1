@@ -1,5 +1,5 @@
 /* Actualizado a 21/01/26 por Leire Trabado*/
-package utilidades;
+package utilities;
 
 import java.io.BufferedReader;
 import java.io.IOException;
