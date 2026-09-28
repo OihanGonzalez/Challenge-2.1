@@ -49,4 +49,9 @@ public class Developer {
     public void setFoundationYear(int foundationYear) {
         this.foundationYear = foundationYear;
     }
+    
+    @Override
+    public String toString() {
+        return "Developer{" + "idDeveloper=" + developerID + ", developerName=" + developerName + ", country=" + country + ", foundationYear=" + foundationYear + '}';
+    }
 }

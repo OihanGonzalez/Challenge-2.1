@@ -4,7 +4,9 @@ package model;
  *
  * @author CJ
  */
+import java.io.File;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -61,9 +63,10 @@ public class DBImplementationDeveloper implements DeveloperDAO {
         );
     }
 
-    public static Developer createDeveloper() {
+    public boolean createDeveloper() {
         String developerName, country;
         int foundationYear;
+        boolean insertPerformed = false;
 
         System.out.println("Developer name:");
         developerName = Utilities.introducirCadena();
@@ -71,9 +74,25 @@ public class DBImplementationDeveloper implements DeveloperDAO {
         country = Utilities.introducirCadena();
         System.out.println("Foundation year:");
         foundationYear = Utilities.leerInt();
-        System.out.println("New developer created");
-
-        return new Developer(0, developerName, country, foundationYear);
+        
+        this.openConnection();
+        try{
+            stmt = con.prepareStatement(SQLINSERT);
+            stmt.setString(2, developerName);
+            stmt.setString(3, country);
+            stmt.setInt(4, foundationYear);
+            
+            if (stmt.executeUpdate() > 0) {
+                insertPerformed = true;
+                System.out.println("New developer created");
+            }
+            stmt.close(); 
+            con.close();
+        }catch (SQLException e) { 
+            System.out.println("Error: " + e.getMessage()); 
+        }
+        
+        return insertPerformed;
     }
 
     public Developer getDeveloperById(int idDeveloper) {
@@ -125,7 +144,7 @@ public class DBImplementationDeveloper implements DeveloperDAO {
         return developers;
     }
 
-/*public boolean viewDeveloperGames(File fichero) {
+    public boolean viewDeveloperGames(File file) {
         List<Developer> aDevelopers = new ArrayList<Developer>();
         ArrayList<Game> aGames = new ArrayList<Game>();
         int developerId;
@@ -139,7 +158,7 @@ public class DBImplementationDeveloper implements DeveloperDAO {
 
         System.out.println("Select a developer to view his games: ");
         developerId = Utilities.leerInt(1, aDevelopers.size());
-        aGames = GameManagement.mostrarJuegos(fichero);
+        aGames = GameManagement.mostrarJuegos(file);
         System.out.println("\n--------- Games developed by Developer ID " + developerId + " -------");
 
         for (Game g : aGames) {
@@ -152,6 +171,5 @@ public class DBImplementationDeveloper implements DeveloperDAO {
             System.out.println("\nThis developer has no games.");
         }
         return true;
-    }*/
-
-     }
+    }
+}
