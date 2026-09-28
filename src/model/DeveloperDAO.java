@@ -4,6 +4,13 @@ package model;
  *
  * @author CJ
  */
-public class DeveloperDAO {
-    
+import java.util.List;
+
+public interface DeveloperDAO {
+
+    public boolean createDeveloper(Developer developer);
+
+    public Developer getDeveloperById(int idDeveloper);
+
+    public List<Developer> getAllDevelopers();
 }
