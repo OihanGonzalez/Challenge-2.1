@@ -51,7 +51,7 @@ INSERT INTO gUser VALUES
 (19, 'DanielO', 'daniel.o@email.com', '688000222', '2023-11-15', '/profiles/danielo.jpg'),
 (20, 'ValeriaZ', 'valeria.z@email.com', '699111333', '2023-12-01', '/profiles/valeriaz.jpg');
 
-INSERT INTO developer (idDeveloper, nameDeveloper, country, fundationYear) VALUES
+INSERT INTO developer (idDeveloper, nameDeveloper, country, foundationYear) VALUES
 (1, 'Nintendo', 'Japón', 1889),
 (2, 'Ubisoft', 'Francia', 1986),
 (3, 'Capcom', 'Japón', 1979),
