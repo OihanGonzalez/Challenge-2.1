@@ -19,8 +19,9 @@ public class Game implements Serializable{
     private GameType type;
     
 
-    public Game(int gameId, String gameName, int developerId, double price, int stock, GameType type) {
+    public Game(int gameId, int developerId, String gameName, double price, int stock, GameType type) {
         this.gameId = gameId;
+        this.developerId = developerId;
         this.gameName = gameName;
         this.price = price;
         this.stock = stock;
