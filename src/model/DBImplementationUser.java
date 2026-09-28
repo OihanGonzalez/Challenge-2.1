@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import utilities.Utilities;
 
 /**
  *
@@ -28,6 +30,8 @@ public class DBImplementationUser implements UserDAO {
     final String SQLSELECTALL = "SELECT * FROM gUser";
     final String SQLSELECTBYID = "SELECT * FROM gUser WHERE idUser = ?";
     final String SQLINSERT = "INSERT INTO gUser VALUES(?,?,?,?,?,?)";
+    final String SQLSELECTGAMEUSER = "SELECT * FROM gameUser WHERE idUser = ? AND idGame = ?";
+    final String SQLINSERTGAMEUSER = "INSERT INTO gameUser VALUES(?,?)";
 
     public DBImplementationUser() {
         this.configFile = ResourceBundle.getBundle("configClass");
@@ -88,24 +92,75 @@ public class DBImplementationUser implements UserDAO {
     }
     
     @Override
-	public User getUserById(User user) { 
-		this.openConnection(); 
-		try {
-			stmt = con.prepareStatement(SQLSELECTBYID);
-			stmt.setString(1, user.getIdUser());
-			java.sql.ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				User found = setUser(rs);
-				rs.close(); 
-                                stmt.close(); 
-                                con.close();
-				return found;
-			}
-			rs.close(); 
-                        stmt.close(); 
-                        con.close();
-		} catch (SQLException e) { System.out.println("Error: " + e.getMessage()); }
-		return null;
-	}
+    public User getUserById(User user) { 
+        this.openConnection(); 
+        try {
+            stmt = con.prepareStatement(SQLSELECTBYID);
+            stmt.setString(1, user.getIdUser());
+            java.sql.ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                User found = setUser(rs);
+                rs.close(); 
+                stmt.close(); 
+                con.close();
+                return found;
+            }
+            rs.close(); 
+            stmt.close(); 
+            con.close();
+        } catch (SQLException e) { System.out.println("Error: " + e.getMessage()); }
+        return null;
+    }
 
+    @Override
+    public boolean purchaseGame(File fichero) {
+        List<User> aUsers = new ArrayList<User>();
+        ArrayList<Game> aGames = new ArrayList<Game>();
+        aUsers = getAllUser();
+        int userId, gameId;
+        boolean found = false;
+        
+        System.out.println("\n--------------USUARIOS------------");
+        for (User u : aUsers) {
+            System.out.println(u.toString());
+        }
+        System.out.println("Select a user to purchase a game: ");
+        userId = Utilities.leerInt(1, aUsers.size());
+        
+        System.out.println("\n----------------JUEGOS-------------");
+        aGames = GameManagement.mostrarJuegos(fichero);
+        
+        System.out.println("Select game to purchase: ");
+        gameId = Utilities.leerInt(1, aGames.size());
+        
+        this.openConnection(); 
+        try {
+            stmt = con.prepareStatement(SQLSELECTGAMEUSER);
+            stmt.setInt(1, userId);
+            stmt.setInt(2, gameId);
+            java.sql.ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                found = true;
+                System.out.println("Ya hay un registro.");
+            }
+            rs.close(); 
+            stmt.close(); 
+            con.close();
+        } catch (SQLException e) { System.out.println("Error: " + e.getMessage()); }
+        
+        if (!found) {
+            this.openConnection();
+            try {
+                stmt = con.prepareStatement(SQLINSERTGAMEUSER);
+                stmt.setInt(1, userId);
+                stmt.setInt(2, gameId);
+
+                int rows = stmt.executeUpdate();
+                System.out.println("Filas insertadas: " + rows);
+            } catch (SQLException e) {
+               e.printStackTrace();
+           }
+        }
+        return found ? false : true;
+    }
 }
