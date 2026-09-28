@@ -5,7 +5,7 @@ USE gamedb;
     
 DROP TABLE IF EXISTS gUser;
 CREATE TABLE gUser(
-	idUser INT PRIMARY KEY,
+	idUser INT PRIMARY KEY AUTO_INCREMENT,
 	nameUser VARCHAR(20),
 	email VARCHAR(50),
 	phoneNumber CHAR(9),

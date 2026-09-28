@@ -8,8 +8,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import utilities.Utilities;
 
-public class DBImplementationDeveloper {
+public class DBImplementationDeveloper implements DeveloperDAO {
 
     private Connection con;
     private PreparedStatement stmt;
@@ -60,26 +61,19 @@ public class DBImplementationDeveloper {
         );
     }
 
-    public boolean createDeveloper(Developer developer) {
-        this.openConnection();
-        try {
-            stmt = con.prepareStatement(SQLINSERT);
-            stmt.setInt(1, developer.getDeveloperID());
-            stmt.setString(2, developer.getDeveloperName());
-            stmt.setString(3, developer.getCountry());
-            stmt.setInt(4, developer.getFoundationYear());
+    public static Developer createDeveloper() {
+        String developerName, country;
+        int foundationYear;
 
-            int rows = stmt.executeUpdate();
+        System.out.println("Developer name:");
+        developerName = Utilities.introducirCadena();
+        System.out.println("Country:");
+        country = Utilities.introducirCadena();
+        System.out.println("Foundation year:");
+        foundationYear = Utilities.leerInt();
+        System.out.println("New developer created");
 
-            stmt.close();
-            con.close();
-
-            return rows > 0;
-
-        } catch (SQLException e) {
-            System.out.println("Error inserting developer: " + e.getMessage());
-        }
-        return false;
+        return new Developer(0, developerName, country, foundationYear);
     }
 
     public Developer getDeveloperById(int idDeveloper) {
@@ -130,4 +124,34 @@ public class DBImplementationDeveloper {
 
         return developers;
     }
-}
+
+/*public boolean viewDeveloperGames(File fichero) {
+        List<Developer> aDevelopers = new ArrayList<Developer>();
+        ArrayList<Game> aGames = new ArrayList<Game>();
+        int developerId;
+        boolean hasGames = false;
+        aDevelopers = getAllDevelopers();
+
+        System.out.println("\n-------------- DEVELOPERS ------------");
+        for (Developer d : aDevelopers) {
+            System.out.println(d.toString());
+        }
+
+        System.out.println("Select a developer to view his games: ");
+        developerId = Utilities.leerInt(1, aDevelopers.size());
+        aGames = GameManagement.mostrarJuegos(fichero);
+        System.out.println("\n--------- Games developed by Developer ID " + developerId + " -------");
+
+        for (Game g : aGames) {
+            if (g.getDeveloperId() == developerId) {
+                System.out.println(g.toString());
+                hasGames = true;
+            }
+        }
+        if (!hasGames) {
+            System.out.println("\nThis developer has no games.");
+        }
+        return true;
+    }*/
+
+     }

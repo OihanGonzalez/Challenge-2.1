@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface DeveloperDAO {
 
-    public boolean createDeveloper(Developer developer);
+    public boolean createDeveloper();
 
     public Developer getDeveloperById(int idDeveloper);
 
