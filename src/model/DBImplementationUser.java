@@ -111,6 +111,31 @@ public class DBImplementationUser implements UserDAO {
         } catch (SQLException e) { System.out.println("Error: " + e.getMessage()); }
         return null;
     }
+    
+    @Override
+    public boolean insertUser(User user){
+        boolean insertPerformed = false;
+        this.openConnection();
+        try{
+            stmt = con.prepareStatement(SQLINSERT);
+            stmt.setString(1, user.getIdUser());
+            stmt.setString(2, user.getNameUser());
+            stmt.setString(3, user.getEmail());
+            stmt.setString(4, user.getPhoneNumber());
+            //conversion from sql.date to localDate
+            stmt.setDate(5, java.sql.Date.valueOf(LocalDate.now()));
+            stmt.setString(6, user.getRoute());
+            
+            if (stmt.executeUpdate() > 0) {
+                insertPerformed = true;
+            }
+            stmt.close(); 
+            con.close();
+        }catch (SQLException e) { 
+            System.out.println("Error: " + e.getMessage()); 
+        }
+            return insertPerformed;
+    }
 
     @Override
     public boolean purchaseGame(File fichero) {

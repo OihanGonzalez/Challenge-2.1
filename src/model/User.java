@@ -20,9 +20,20 @@ public class User {
         this.nameUser=nameUser;
         this.email=email;
         this.phoneNumber=phoneNumber;
-        this.registrationDate = LocalDate.now();
+        this.registrationDate=registrationDate;
         this.route=route;
     }
+    
+    public User(){
+        this.idUser="";
+        this.nameUser="";
+        this.email="";
+        this.phoneNumber="";
+        this.registrationDate=LocalDate.now();
+        this.route="";
+    }
+    
+    
     
     //getters and setters
 
