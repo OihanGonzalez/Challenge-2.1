@@ -18,7 +18,7 @@ CREATE TABLE developer(
 	idDeveloper INT PRIMARY KEY,
 	nameDeveloper VARCHAR(20),
 	country VARCHAR(20),
-	fundationYear INT
+	foundationYear INT
 );
 
 DROP TABLE IF EXISTS gameUser;
