@@ -32,6 +32,7 @@ public class DBImplementationUser implements UserDAO {
     final String SQLINSERT = "INSERT INTO gUser VALUES(?,?,?,?,?,?)";
     final String SQLSELECTGAMEUSER = "SELECT * FROM gameUser WHERE idUser = ? AND idGame = ?";
     final String SQLINSERTGAMEUSER = "INSERT INTO gameUser VALUES(?,?)";
+    final String SQLSELECTUSERGAMES = "SELECT * FROM gameUser JOIN gUser ON gameUser.idUser = gUser.idUser WHERE gameUser.idUser = ?";
 
     public DBImplementationUser() {
         this.configFile = ResourceBundle.getBundle("configClass");
@@ -53,7 +54,7 @@ public class DBImplementationUser implements UserDAO {
     }
     
     //creation of a setUser method to avoid repeating the date conversion code in each User method
-    private User setUser(java.sql.ResultSet rs) throws SQLException {
+    private User setUser(ResultSet rs) throws SQLException {
         //conversion Date (from db) to LocalDate 
         java.sql.Date sqlDate = rs.getDate("registrationDate");
         java.time.LocalDate registrationDate = (sqlDate != null) ? sqlDate.toLocalDate() : null;
@@ -74,7 +75,7 @@ public class DBImplementationUser implements UserDAO {
         this.openConnection();
         try {
             stmt = con.prepareStatement(SQLSELECTALL);
-            java.sql.ResultSet rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 
                 java.sql.Date sqlDate = rs.getDate("registrationDate");
@@ -97,7 +98,7 @@ public class DBImplementationUser implements UserDAO {
         try {
             stmt = con.prepareStatement(SQLSELECTBYID);
             stmt.setString(1, user.getIdUser());
-            java.sql.ResultSet rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 User found = setUser(rs);
                 rs.close(); 
@@ -145,14 +146,14 @@ public class DBImplementationUser implements UserDAO {
         int userId, gameId;
         boolean found = false;
         
-        System.out.println("\n--------------USUARIOS------------");
+        System.out.println("\n--------------USERS------------");
         for (User u : aUsers) {
             System.out.println(u.toString());
         }
         System.out.println("Select a user to purchase a game: ");
         userId = Utilities.leerInt(1, aUsers.size());
         
-        System.out.println("\n----------------JUEGOS-------------");
+        System.out.println("\n----------------GAMES-------------");
         aGames = GameManagement.mostrarJuegos(fichero);
         
         System.out.println("Select game to purchase: ");
@@ -163,10 +164,10 @@ public class DBImplementationUser implements UserDAO {
             stmt = con.prepareStatement(SQLSELECTGAMEUSER);
             stmt.setInt(1, userId);
             stmt.setInt(2, gameId);
-            java.sql.ResultSet rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 found = true;
-                System.out.println("Ya hay un registro.");
+                System.out.println("The user already has the game.");
             }
             rs.close(); 
             stmt.close(); 
@@ -181,11 +182,58 @@ public class DBImplementationUser implements UserDAO {
                 stmt.setInt(2, gameId);
 
                 int rows = stmt.executeUpdate();
-                System.out.println("Filas insertadas: " + rows);
+                System.out.println("Game purchased");
             } catch (SQLException e) {
                e.printStackTrace();
            }
         }
         return found ? false : true;
+    }
+    
+    
+    @Override
+    public boolean viewUserGames(File fichero) {
+        List<User> aUsers = new ArrayList<User>();
+        ArrayList<Game> aGames = new ArrayList<Game>();
+        int userId;
+        boolean hasGames = false;
+        
+        aUsers = getAllUser();
+        
+        System.out.println("\n--------------USERS------------");
+        for (User u : aUsers) {
+            System.out.println(u.toString());
+        }
+        System.out.println("Select a user check his library: ");
+        userId = Utilities.leerInt(1, aUsers.size());
+        
+        aGames = GameManagement.mostrarJuegos(fichero);
+        
+        this.openConnection();
+        try {
+            stmt = con.prepareStatement(SQLSELECTUSERGAMES);
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                System.out.println("\n--------- " + rs.getString("nameUser") + "'s videogames -------");
+                for (Game g : aGames) {
+                   if (g.getGameId() == rs.getInt("idGame")) {
+                       System.out.println(g.toString());
+                       hasGames = true;
+                   }
+               }
+            }
+            rs.close();
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        if (!hasGames) {
+            System.out.println("\nHas 0 games.");
+        }
+        
+        return true;
     }
 }

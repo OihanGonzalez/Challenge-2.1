@@ -12,4 +12,5 @@ public interface UserDAO {
     public User getUserById(User user);
     public boolean purchaseGame(File fichero);
     public boolean insertUser(User user);
+    public boolean viewUserGames(File fichero);
 }
