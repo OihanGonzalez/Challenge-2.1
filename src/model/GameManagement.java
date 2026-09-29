@@ -238,7 +238,10 @@ public class GameManagement {
         
         for (Game g : aGames) {
             if (g.getaUser().contains(userId)) {
-                System.out.println(g);
+                if (!found) {
+                    System.out.println("\n---------------- " + aUsers.get(userId).getNameUser() +  "'s library -------------");
+                }
+                System.out.println("- " + g.getGameName());
                 found = true;
             }
         }
