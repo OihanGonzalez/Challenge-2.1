@@ -24,7 +24,8 @@ public class Main {
             option=menu();
             switch(option){
                 case 1:
-                    GameManagement.createGame();
+                    Game g = GameManagement.createGame(file);
+                    GameManagement.guardarJuego(g, file);
                     break;
                 case 2:
                     //cont.insertUser(user);

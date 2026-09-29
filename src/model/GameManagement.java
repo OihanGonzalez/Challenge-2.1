@@ -21,24 +21,36 @@ import utilities.MyObjectOutputStream;
  */
 public class GameManagement {
 
-    public static Game createGame() {
+    public static Game createGame(File file) {
+        int gameId = getNextId(file);
         String gameName, opcion;
-        int developerId, stock, gameId;
+        int developerId, stock;
         double gamePrice;
         GameType type = null;
-        System.out.println("Game ID:");
-        gameId = Utilities.leerInt();
         System.out.println("Game name:");
         gameName = Utilities.introducirCadena();
-        System.out.println("Developer ID:");
-        developerId = Utilities.leerInt();
+        
+        DBImplementationDeveloper devDAO = DBImplementationDeveloper.getInstance();
+        Developer dev = null;       
+        do {
+            System.out.println("Developer ID:");
+            developerId = Utilities.leerInt();
+
+            dev = devDAO.getDeveloperById(developerId);
+
+            if (dev == null) {
+                System.out.println("Developer not found. Try again.");
+            }
+        } while (dev == null); 
+        
         System.out.println("Game Price");
         gamePrice = Utilities.leerDouble();
+        
         System.out.println("Game Stock");
         stock = Utilities.leerInt();
+        
         System.out.println("What game type");
         opcion = Utilities.introducirCadena("Action", "Sports", "RPG");
-
         switch (opcion.toUpperCase()) {
             case "ACTION":
                 type = GameType.ACTION;
@@ -53,7 +65,8 @@ public class GameManagement {
         System.out.println("New game created");
         return new Game(gameId, developerId, gameName, gamePrice, stock, type);
     }
-     public static void guardarJuego(Game g, File fichero) {
+
+    public static void guardarJuego(Game g, File fichero) {
         try {
             if (fichero.exists()) {
                 FileOutputStream fos = new FileOutputStream(fichero, true);
@@ -91,7 +104,7 @@ public class GameManagement {
         }
         return aGames;
     }
-    
+
     public static void fillGames(File fichero) {
         List<Game> games = new ArrayList<>();
 
@@ -115,11 +128,31 @@ public class GameManagement {
         games.add(new Game(18, 9, "Racing Legends GP", 32.99, 95, GameType.SPORTS));
         games.add(new Game(19, 10, "Storm Warrior", 22.99, 85, GameType.ACTION));
         games.add(new Game(20, 10, "Sword of the Realm", 41.99, 45, GameType.RPG));
-        
+
         for (Game g : games) {
             guardarJuego(g, fichero);
         }
     }
+
+    private static int getNextId(File file) {
+        int lastId = 0;
+
+        if (!file.exists()) {
+            return 1;
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            while (true) {
+                Game g = (Game) ois.readObject();
+                lastId = g.getGameId();
+            }
+        } catch (EOFException e) {
+            // Fin del fichero
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return lastId + 1;
+    }
+
 }
-
-
