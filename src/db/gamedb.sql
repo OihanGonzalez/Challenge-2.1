@@ -21,14 +21,6 @@ CREATE TABLE developer(
 	foundationYear INT
 );
 
-DROP TABLE IF EXISTS gameUser;
-CREATE TABLE gameUser(
-    idUser INT,
-    idGame INT,
-    PRIMARY KEY(idUser, idGame),
-    FOREIGN KEY(idUser) REFERENCES gUser(idUser) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
 INSERT INTO gUser VALUES
 (1, 'CarlosG', 'carlos.g@email.com', '600111222', '2023-01-15', 'images/pfp1.png'),
 (2, 'AnaP', 'ana.p@email.com', '611222333', '2023-02-10', 'images/pfp2.png'),
@@ -52,23 +44,23 @@ INSERT INTO gUser VALUES
 (20, 'ValeriaZ', 'valeria.z@email.com', '699111333', '2023-12-01', '/profiles/valeriaz.jpg');
 
 INSERT INTO developer (nameDeveloper, country, foundationYear) VALUES
-('Nintendo', 'Japón', 1889),
-('Ubisoft', 'Francia', 1986),
-('Capcom', 'Japón', 1979),
-('EA', 'Estados Unidos', 1982),
-('Square Enix', 'Japón', 1975),
-('CD Projekt Red', 'Polonia', 1994),
-('Rockstar Games', 'Estados Unidos', 1998),
-('Valve', 'Estados Unidos', 1996),
-('Bethesda', 'Estados Unidos', 1986),
-('Bandai Namco', 'Japón', 1955),
-('Mojang', 'Suecia', 2009),
-('Epic Games', 'Estados Unidos', 1991),
-('Kona', 'Japón', 1969),
-('Sega', 'Japón', 1960),
-('Bioware', 'Canadá', 1995),
-('Remedy', 'Finlandia', 1995),
-('Bungie', 'Estados Unidos', 1991),
-('Insomniac', 'Estados Unidos', 1994),
-('Crytek', 'Alemania', 1999),
-('Atlus', 'Japón', 1986);
+('Nintendo', 'Japan', 1889),
+('Ubisoft', 'France', 1986),
+('Capcom', 'Japan', 1979),
+('EA', 'USA', 1982),
+('Square Enix', 'Japan', 1975),
+('CD Projekt Red', 'Poland', 1994),
+('Rockstar Games', 'USA', 1998),
+('Valve', 'USA', 1996),
+('Bethesda', 'USA', 1986),
+('Bandai Namco', 'Japan', 1955),
+('Mojang', 'Sweden', 2009),
+('Epic Games', 'USA', 1991),
+('Kona', 'Japan', 1969),
+('Sega', 'Japan', 1960),
+('Bioware', 'Canada', 1995),
+('Remedy', 'Finland', 1995),
+('Bungie', 'USA', 1991),
+('Insomniac', 'USA', 1994),
+('Crytek', 'Germany', 1999),
+('Atlus', 'Japan', 1986);
