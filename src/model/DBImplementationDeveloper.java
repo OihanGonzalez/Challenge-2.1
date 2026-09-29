@@ -73,7 +73,7 @@ public class DBImplementationDeveloper implements DeveloperDAO {
         System.out.println("Country:");
         country = Utilities.introducirCadena();
         System.out.println("Foundation year:");
-        foundationYear = Utilities.leerInt();
+        foundationYear = Utilities.leerInt(1950,LocalDate.now().getYear());
         
         this.openConnection();
         try{
