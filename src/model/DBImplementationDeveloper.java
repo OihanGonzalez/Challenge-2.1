@@ -26,7 +26,7 @@ public class DBImplementationDeveloper implements DeveloperDAO {
 
     final String SQLSELECTALL = "SELECT * FROM developer";
     final String SQLSELECTBYID = "SELECT * FROM developer WHERE idDeveloper = ?";
-    final String SQLINSERT = "INSERT INTO developer VALUES(?,?,?,?)";
+    final String SQLINSERT = "INSERT INTO developer (nameDeveloper, country, foundationYear) VALUES(?,?,?)";
 
     public DBImplementationDeveloper() {
         this.configFile = ResourceBundle.getBundle("configClass");
@@ -78,9 +78,9 @@ public class DBImplementationDeveloper implements DeveloperDAO {
         this.openConnection();
         try{
             stmt = con.prepareStatement(SQLINSERT);
-            stmt.setString(2, developerName);
-            stmt.setString(3, country);
-            stmt.setInt(4, foundationYear);
+            stmt.setString(1, developerName);
+            stmt.setString(2, country);
+            stmt.setInt(3, foundationYear);
             
             if (stmt.executeUpdate() > 0) {
                 insertPerformed = true;

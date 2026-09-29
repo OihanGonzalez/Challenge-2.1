@@ -7,3 +7,4 @@ nbactions.xml
 nb-configuration.xml
 /nbproject/project.properties
 src/configClass.properties
+vgstore.dat
