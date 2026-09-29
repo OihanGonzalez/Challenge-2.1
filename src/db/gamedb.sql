@@ -15,7 +15,7 @@ CREATE TABLE gUser(
     
 DROP TABLE IF EXISTS developer;    
 CREATE TABLE developer(
-	idDeveloper INT PRIMARY KEY,
+	idDeveloper INT PRIMARY KEY AUTO_INCREMENT,
 	nameDeveloper VARCHAR(20),
 	country VARCHAR(20),
 	foundationYear INT
