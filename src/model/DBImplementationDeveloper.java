@@ -158,7 +158,7 @@ public class DBImplementationDeveloper implements DeveloperDAO {
 
         System.out.println("Select a developer to view his games: ");
         developerId = Utilities.leerInt(1, aDevelopers.size());
-        aGames = GameManagement.mostrarJuegos(file);
+        aGames = GameManagement.showGames(file);
         System.out.println("\n--------- Games developed by Developer ID " + developerId + " -------");
 
         for (Game g : aGames) {

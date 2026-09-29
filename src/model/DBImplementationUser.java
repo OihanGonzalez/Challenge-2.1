@@ -198,7 +198,7 @@ public class DBImplementationUser implements UserDAO {
         userId = Utilities.leerInt(1, aUsers.size());
         
         System.out.println("\n----------------GAMES-------------");
-        aGames = GameManagement.mostrarJuegos(file);
+        aGames = GameManagement.showGames(file);
         
         System.out.println("Select game to purchase: ");
         gameId = Utilities.leerInt(1, aGames.size());
@@ -251,7 +251,7 @@ public class DBImplementationUser implements UserDAO {
         System.out.println("Select a user check his library: ");
         userId = Utilities.leerInt(1, aUsers.size());
         
-        aGames = GameManagement.mostrarJuegos(file);
+        aGames = GameManagement.showGames(file);
         
         this.openConnection();
         try {

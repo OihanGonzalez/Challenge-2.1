@@ -25,10 +25,10 @@ public class Main {
             switch(option){
                 case 1:
                     Game g = GameManagement.createGame(file);
-                    GameManagement.guardarJuego(g, file);
+                    GameManagement.saveGame(g, file);
                     break;
                 case 2:
-                    //cont.insertUser(user);
+                    cont.insertUser();
                     break;
                 case 3:
                     cont.createDeveloper();
@@ -37,7 +37,7 @@ public class Main {
                     cont.purchaseGame(file);
                     break;
                 case 5:
-                    GameManagement.mostrarJuegos(file);
+                    GameManagement.showGames(file);
                     break;
                 case 6:
                     cont.viewDeveloperGames(file);

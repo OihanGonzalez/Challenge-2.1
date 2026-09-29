@@ -66,7 +66,7 @@ public class GameManagement {
         return new Game(gameId, developerId, gameName, gamePrice, stock, type);
     }
 
-    public static void guardarJuego(Game g, File fichero) {
+    public static void saveGame(Game g, File fichero) {
         try {
             if (fichero.exists()) {
                 FileOutputStream fos = new FileOutputStream(fichero, true);
@@ -84,9 +84,9 @@ public class GameManagement {
         }
     }
 
-    public static ArrayList<Game> mostrarJuegos(File fichero) {
+    public static ArrayList<Game> showGames(File fichero) {
         if (!fichero.exists()) {
-            System.out.println("No hay juegos.");
+            System.out.println("There are no games in the file.");
             return null;
         }
 
@@ -130,7 +130,7 @@ public class GameManagement {
         games.add(new Game(20, 10, "Sword of the Realm", 41.99, 45, GameType.RPG));
 
         for (Game g : games) {
-            guardarJuego(g, fichero);
+            saveGame(g, fichero);
         }
     }
 
