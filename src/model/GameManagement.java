@@ -250,6 +250,7 @@ public class GameManagement {
             System.out.println(aUsers.get(userId-1).getNameUser() + " has no games.");
         }
         
+        found = false;
         //open user's profile picture
         for(int i = 0; i<aUsers.size()&&!found ; i++){
             User u=aUsers.get(i);
