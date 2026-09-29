@@ -135,11 +135,11 @@ public class DBImplementationUser implements UserDAO {
         }catch (SQLException e) { 
             System.out.println("Error: " + e.getMessage()); 
         }
-            return insertPerformed;
+        return insertPerformed;
     }
 
     @Override
-    public boolean purchaseGame(File fichero) {
+    public boolean purchaseGame(File file) {
         List<User> aUsers = new ArrayList<User>();
         ArrayList<Game> aGames = new ArrayList<Game>();
         aUsers = getAllUser();
@@ -154,7 +154,7 @@ public class DBImplementationUser implements UserDAO {
         userId = Utilities.leerInt(1, aUsers.size());
         
         System.out.println("\n----------------GAMES-------------");
-        aGames = GameManagement.mostrarJuegos(fichero);
+        aGames = GameManagement.mostrarJuegos(file);
         
         System.out.println("Select game to purchase: ");
         gameId = Utilities.leerInt(1, aGames.size());
@@ -192,7 +192,7 @@ public class DBImplementationUser implements UserDAO {
     
     
     @Override
-    public boolean viewUserGames(File fichero) {
+    public boolean viewUserGames(File file) {
         List<User> aUsers = new ArrayList<User>();
         ArrayList<Game> aGames = new ArrayList<Game>();
         int userId;
@@ -207,7 +207,7 @@ public class DBImplementationUser implements UserDAO {
         System.out.println("Select a user check his library: ");
         userId = Utilities.leerInt(1, aUsers.size());
         
-        aGames = GameManagement.mostrarJuegos(fichero);
+        aGames = GameManagement.mostrarJuegos(file);
         
         this.openConnection();
         try {
@@ -234,6 +234,6 @@ public class DBImplementationUser implements UserDAO {
             System.out.println("\nHas 0 games.");
         }
         
-        return true;
+        return hasGames;
     }
 }
