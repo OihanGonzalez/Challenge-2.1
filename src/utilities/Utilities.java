@@ -29,7 +29,7 @@ public class Utilities {
 			try{
 				date=LocalDate.parse(dateString, formateador);
 			}catch(DateTimeParseException e){
-				System.out.println("Error, introduce una fecha en formato dd/mm/aaaa ");
+				System.out.println("Error: please enter a date in dd/mm/yyyy format ");
 				error=true;
 			}
 		}while (error);
@@ -49,7 +49,7 @@ public class Utilities {
 			try{
 				date=LocalDate.parse(dateString, formateador);
 			}catch(DateTimeParseException e){
-				System.out.println("Error, introduce una fecha en formato yyyy/MM/dd ");
+				System.out.println("Error: please enter a date in the format yyyy/MM/dd");
 				error=true;
 			}
 		}while (error);
@@ -65,14 +65,14 @@ public class Utilities {
 			error=false;
 			cadena=introducirCadena();
 			if (cadena.length()!=1){
-				System.out.println("Error, introduce un único caracter: ");
+				System.out.println("Error, please enter a single character: ");
 				error=true;
 			}
 			else{
 				letra=cadena.charAt(0);
 				letra=Character.toUpperCase(letra);
 				if (letra!=opt1 && letra!=opt2){
-					System.out.println("Error, la opción introducida no es correcta, introduce "+ opt1+ " o "+ opt2);
+					System.out.println("Error: the option you entered is incorrect. Please enter "+ opt1+ " or "+ opt2);
 					error=true;
 				}
 			}
@@ -89,7 +89,7 @@ public class Utilities {
 			error=false;
 			cadena=introducirCadena();
 			if (cadena.length()!=1){
-				System.out.println("Error, introduce un único caracter: ");
+				System.out.println("Error: please enter a single character: ");
 				error=true;
 			}
 		}while (error);
@@ -106,7 +106,7 @@ public class Utilities {
 			System.out.println(mensaje);
 			cadena=introducirCadena();
 			if (cadena.length()!=1){
-				System.out.println("Error, introduce un único caracter: ");
+				System.out.println("Error: please enter a single character: ");
 				error=true;
 			}
 		}while (error);
@@ -122,7 +122,7 @@ public class Utilities {
 			try{
 				num=Float.parseFloat(introducirCadena());
 			}catch (NumberFormatException e){
-				System.out.println("Valor no numérico. Introduce de nuevo:");
+				System.out.println("Non-numeric value. Please enter again: ");
 				error=true;
 			}
 		}while (error);
@@ -139,12 +139,12 @@ public class Utilities {
 				num=Float.parseFloat(introducirCadena());
 				
 			}catch (NumberFormatException e){
-				System.out.println("Valor no num�rico. Introduce de nuevo:");
+				System.out.println("Non-numeric value. Please enter again: ");
 				error=true;
 				num=min;
 			}
 			if(num<min || num>max){
-				System.out.println("Número fuera de rango, introduce número entre "+ min+ " y "+ max+": ");
+				System.out.println("Number outside the range. Please enter a number between "+ min+ " and "+ max+": ");
 				error=true;
 			}
 		}while (error);
@@ -160,12 +160,12 @@ public class Utilities {
 				num=Float.parseFloat(introducirCadena());
 				
 			}catch (NumberFormatException e){
-				System.out.println("Valor no numérico. Introduce de nuevo:");
+				System.out.println("Non-numeric value. Please enter again: ");
 				error=true;
 				num=min;
 			}
 			if(num<min || num>max){
-				System.out.println("Número fuera de rango, introduce n� entre "+ min+ " y "+ max+": ");
+				System.out.println("Number out of range. Please enter a number between "+ min+ " and "+ max+": ");
 				error=true;
 			}
 		}while (error);
@@ -182,12 +182,12 @@ public class Utilities {
 				num=Integer.parseInt(introducirCadena());
 				
 			}catch (NumberFormatException e){
-				System.out.println("Valor no numérico. Introduce de nuevo:");
+				System.out.println("Non-numeric value. Please enter again: ");
 				error=true;
 				num=min;
 			}
 			if(num<min || num>max){
-				System.out.println("Número fuera de rango, introduce número entre "+ min+ " y "+ max+": ");
+				System.out.println("Number outside the range; please enter a number between "+ min+ " and "+ max+": ");
 				error=true;
 			}
 		}while (error);
@@ -239,7 +239,7 @@ public class Utilities {
 				System.out.println(mensaje);
 				num=Integer.parseInt(introducirCadena());
 			}catch (NumberFormatException e){
-				System.out.println("Valor no numérico. Introduce de nuevo:");
+				System.out.println("Non-numeric value. Please enter again: ");
 				error=true;
 			}
 		}while (error);
@@ -255,7 +255,7 @@ public class Utilities {
 			try {
 				cadena=teclado.readLine();
 			} catch (IOException e) {
-				System.out.println("Error en la entrada de datos");
+				System.out.println("Data entry error");
 				error=true;
 			}
 		}while (error);
@@ -272,7 +272,7 @@ public class Utilities {
 				System.out.println(mensaje);
 				cadena=teclado.readLine();
 			} catch (IOException e) {
-				System.out.println("Error en la entrada de datos");
+				System.out.println("Data entry error");
 				error=true;
 			}
 		}while (error);
@@ -288,7 +288,7 @@ public class Utilities {
 				System.out.println(mensaje);
 				num=Double.parseDouble(introducirCadena());
 			}catch (NumberFormatException e){
-				System.out.print("[ERROR] Valor no numerico.\nIntroduce de nuevo: ");
+				System.out.print("[ERROR] Non-numeric value.\nPlease enter again: ");
 				error=true;
 			}
 		}while (error);
@@ -304,7 +304,7 @@ public class Utilities {
 			try{
 				num=Double.parseDouble(introducirCadena());
 			}catch (NumberFormatException e){
-				System.out.print("[ERROR] Valor no numerico.\nIntroduce de nuevo: ");
+				System.out.print("[ERROR] Non-numeric value.\nPlease enter again: ");
 				error=true;
 			}
 		}while (error);
@@ -321,12 +321,12 @@ public class Utilities {
 			try{
 				num=Double.parseDouble(introducirCadena());
 			}catch (NumberFormatException e){
-				System.out.print("[ERROR] Valor no numerico. Introduce de nuevo: ");
+				System.out.print("[ERROR] Non-numeric value. Please enter again: ");
 				error=true;
 				num=min;
 			}
 			if(num<min || num>max){
-				System.out.print("[ERROR] Numero fuera de rango.\nIntroduce uno entre "+ min+ " y "+ max+": ");
+				System.out.print("[ERROR] Number out of range.\nPlease enter a number between "+ min+ " and "+ max+": ");
 				error=true;
 			}
 		}while (error);
@@ -345,12 +345,12 @@ public class Utilities {
 				num=Double.parseDouble(introducirCadena());
 
 			}catch (NumberFormatException e){
-				System.out.print("[ERROR] Valor no numerico. Introduce de nuevo: ");
+				System.out.print("[ERROR] Non-numeric value. Please enter again: ");
 				error=true;
 				num=min;
 			}
 			if(num<min || num>max){
-				System.out.print("[ERROR] Numero fuera de rango.\nIntroduce numero entre "+ min+ " y "+ max+": ");
+				System.out.print("[ERROR] Number out of range.\nPlease enter a number between "+ min+ " and "+ max+": ");
 				error=true;
 			}
 		}while (error);
@@ -365,16 +365,16 @@ public class Utilities {
 		do{
 			error=false;
 			try {
-				System.out.println("Introduce una opción (" + palabra1 + " o " + palabra2 + "):");
+				System.out.println("Enter a choice (" + palabra1 + " or " + palabra2 + "):");
 				cadena=teclado.readLine();
 				cadena = cadena.trim().toUpperCase();
 				if (!cadena.equalsIgnoreCase(palabra1) && !cadena.equalsIgnoreCase(palabra2)){
-					System.out.println("Error, la opción introducida no es correcta, introduce "+ palabra1+ " o "+ palabra2);
+					System.out.println("Error: the option you entered is incorrect. Please enter "+ palabra1+ " or "+ palabra2);
 					error=true;
 				}
 
 			} catch (IOException e) {
-				System.out.println("Error en la entrada de datos");
+				System.out.println("Data entry error");
 				error=true;
 			}
 
@@ -392,16 +392,16 @@ public class Utilities {
 		do{
 			error=false;
 			try {
-				System.out.println("Introduce una opción (" + palabra1 + " o " + palabra2 + " o " + palabra3 + "):");
+				System.out.println("Enter a choice (" + palabra1 + " or " + palabra2 + " or " + palabra3 + "):");
 				cadena=teclado.readLine();
 				cadena = cadena.trim().toUpperCase();
 				if (!cadena.equalsIgnoreCase(palabra1) && !cadena.equalsIgnoreCase(palabra2) && !cadena.equalsIgnoreCase(palabra3)){
-					System.out.println("Error, la opción introducida no es correcta, introduce "+ palabra1+ " o "+ palabra2 + " o " + palabra3);
+					System.out.println("Error: the option you entered is incorrect. Please enter "+ palabra1+ " o "+ palabra2 + " or " + palabra3);
 					error=true;
 				}
 
 			} catch (IOException e) {
-				System.out.println("Error en la entrada de datos");
+				System.out.println("Data entry error");
 				error=true;
 			}
 
@@ -418,7 +418,7 @@ public class Utilities {
 	char respuesta;
 	boolean booleanDevuelto;
 
-	System.out.println("Introduzca S para verdadero y N para falso");
+	System.out.println("Enter S for true and N for false");
 	respuesta = leerChar('S', 'N');
 
 	if(respuesta=='S'){
