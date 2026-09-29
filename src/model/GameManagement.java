@@ -232,14 +232,14 @@ public class GameManagement {
             System.out.println(u.toString());
         }
         System.out.println("Select a user check his library: ");
-        userId = Utilities.leerInt(1, aUsers.size()) - 1;
+        userId = Utilities.leerInt(1, aUsers.size());
         
         aGames = getAllGames(file);
         
         for (Game g : aGames) {
-            if (g.getaUser().contains(userId)) {
+            if (g.getaUser().contains(userId-1)) {
                 if (!found) {
-                    System.out.println("\n---------------- " + aUsers.get(userId).getNameUser() +  "'s library -------------");
+                    System.out.println("\n---------------- " + aUsers.get(userId-1).getNameUser() +  "'s library -------------");
                 }
                 System.out.println("- " + g.getGameName());
                 found = true;
@@ -247,7 +247,7 @@ public class GameManagement {
         }
         
         if (!found) {
-            System.out.println(aUsers.get(userId).getNameUser() + " has no games.");
+            System.out.println(aUsers.get(userId-1).getNameUser() + " has no games.");
         }
         
         //open user's profile picture
