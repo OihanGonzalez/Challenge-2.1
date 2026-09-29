@@ -203,12 +203,12 @@ public class Utilities {
 				num=Integer.parseInt(introducirCadena());
 				
 			}catch (NumberFormatException e){
-				System.out.println("Valor no num�rico. Introduce de nuevo:");
+				System.out.println("Non numeric value. Try again:");
 				error=true;
 				num=min;
 			}
 			if(num<min || num>max){
-				System.out.println("Número fuera de rango, introduce número entre "+ min+ " y "+ max+": ");
+				System.out.println("Number out of bounds, try a number between "+ min+ " and "+ max+": ");
 				error=true;
 			}
 		}while (error);

@@ -7,7 +7,7 @@ import java.time.LocalDate;
  * @author etnag
  */
 public class User {
-    private String idUser;
+    private int idUser;
     private String nameUser;
     private String email;
     private String phoneNumber;
@@ -15,7 +15,7 @@ public class User {
     private String route;
     
     //contructor
-    public User(String idUser, String nameUser, String email, String phoneNumber, LocalDate registrationDate, String route){
+    public User(int idUser, String nameUser, String email, String phoneNumber, LocalDate registrationDate, String route){
         this.idUser=idUser;
         this.nameUser=nameUser;
         this.email=email;
@@ -25,7 +25,7 @@ public class User {
     }
     
     public User(){
-        this.idUser="";
+        this.idUser=0;
         this.nameUser="";
         this.email="";
         this.phoneNumber="";
@@ -37,7 +37,7 @@ public class User {
     
     //getters and setters
 
-    public String getIdUser() {
+    public int getIdUser() {
         return idUser;
     }
     public String getNameUser() {
@@ -55,7 +55,7 @@ public class User {
     public String getRoute() {
         return route;
     }
-    public void setIdUser(String idUser) {
+    public void setIdUser(int idUser) {
         this.idUser = idUser;
     }
     public void setNameUser(String nameUser) {

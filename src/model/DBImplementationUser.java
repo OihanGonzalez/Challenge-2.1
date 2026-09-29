@@ -2,14 +2,11 @@ package model;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 import utilities.Utilities;
 
 /**
@@ -26,10 +23,11 @@ public class DBImplementationUser implements UserDAO {
     private String urlDB;
     private String userDB;
     private String passwordDB;
+    private static DBImplementationUser instance;
 
     final String SQLSELECTALL = "SELECT * FROM gUser";
     final String SQLSELECTBYID = "SELECT * FROM gUser WHERE idUser = ?";
-    final String SQLINSERT = "INSERT INTO gUser VALUES(?,?,?,?,?,?)";
+    final String SQLINSERT = "INSERT INTO gUser (nameUser, email, phoneNumber, registrationDate, route) VALUES(?,?,?,?,?)";
     final String SQLSELECTGAMEUSER = "SELECT * FROM gameUser WHERE idUser = ? AND idGame = ?";
     final String SQLINSERTGAMEUSER = "INSERT INTO gameUser VALUES(?,?)";
     final String SQLSELECTUSERGAMES = "SELECT * FROM gameUser JOIN gUser ON gameUser.idUser = gUser.idUser WHERE gameUser.idUser = ?";
@@ -53,14 +51,21 @@ public class DBImplementationUser implements UserDAO {
         }
     }
     
+    public static DBImplementationUser getInstance(){
+        if(instance == null){
+            instance = new DBImplementationUser();
+        }
+        return instance;
+    }
+    
     //creation of a setUser method to avoid repeating the date conversion code in each User method
     private User setUser(ResultSet rs) throws SQLException {
         //conversion Date (from db) to LocalDate 
         java.sql.Date sqlDate = rs.getDate("registrationDate");
-        java.time.LocalDate registrationDate = (sqlDate != null) ? sqlDate.toLocalDate() : null;
+        LocalDate registrationDate = (sqlDate != null) ? sqlDate.toLocalDate() : null;
 
         return new User(
-                rs.getString("idUser"),
+                rs.getInt("idUser"),
                 rs.getString("nameUser"),
                 rs.getString("email"),
                 rs.getString("phoneNumber"),
@@ -79,7 +84,7 @@ public class DBImplementationUser implements UserDAO {
             while (rs.next()) {
                 
                 java.sql.Date sqlDate = rs.getDate("registrationDate");
-                java.time.LocalDate registrationDate = (sqlDate != null) ? sqlDate.toLocalDate() : null;
+                LocalDate registrationDate = (sqlDate != null) ? sqlDate.toLocalDate() : null;
                 
                 users.add(setUser(rs));
             }
@@ -97,7 +102,7 @@ public class DBImplementationUser implements UserDAO {
         this.openConnection(); 
         try {
             stmt = con.prepareStatement(SQLSELECTBYID);
-            stmt.setString(1, user.getIdUser());
+            stmt.setInt(1, user.getIdUser());
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 User found = setUser(rs);
@@ -114,21 +119,32 @@ public class DBImplementationUser implements UserDAO {
     }
     
     @Override
-    public boolean insertUser(User user){
+    public boolean insertUser(){
+        String nameUser, email=null, phoneNumber=null, route;
         boolean insertPerformed = false;
+        
+        System.out.print("Insert user's name: ");
+        nameUser = Utilities.introducirCadena();
+        System.out.print("Insert user's email: ");
+        email = validateEmail(email);
+        System.out.print("Inser user's phone number: ");
+        phoneNumber = validatePhone(phoneNumber); 
+        System.out.print("Insert user's profile picture route: ");
+        route = Utilities.introducirCadena();
+        
         this.openConnection();
         try{
             stmt = con.prepareStatement(SQLINSERT);
-            stmt.setString(1, user.getIdUser());
-            stmt.setString(2, user.getNameUser());
-            stmt.setString(3, user.getEmail());
-            stmt.setString(4, user.getPhoneNumber());
+            stmt.setString(1, nameUser);
+            stmt.setString(2, email);
+            stmt.setString(3, phoneNumber);
             //conversion from sql.date to localDate
-            stmt.setDate(5, java.sql.Date.valueOf(LocalDate.now()));
-            stmt.setString(6, user.getRoute());
+            stmt.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
+            stmt.setString(5, route);
             
             if (stmt.executeUpdate() > 0) {
                 insertPerformed = true;
+                System.out.println("New user created");
             }
             stmt.close(); 
             con.close();
@@ -136,6 +152,34 @@ public class DBImplementationUser implements UserDAO {
             System.out.println("Error: " + e.getMessage()); 
         }
         return insertPerformed;
+    }
+    
+    public static String validatePhone(String phone) {
+	boolean valid = false;
+        
+	do {
+            phone = Utilities.introducirCadena();
+            if(Pattern.matches("^(\\+34)?[ -]?[0-9]{3}[ -]?[0-9]{3}[ -]?[0-9]{3}$", phone)) {
+                valid = true;
+            } else {
+                System.out.println("Invalid phone format, please try again.");
+            }
+	}while(!valid);
+            return phone;
+	}
+    
+    public static String validateEmail(String email){
+        boolean valid = false;
+        
+        do{
+            email = Utilities.introducirCadena();
+            if(Pattern.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$", email)){
+                valid = true;
+            }else{
+                System.out.println("Invalid email format, please try again.");
+            }
+        }while(!valid);
+            return email;
     }
 
     @Override

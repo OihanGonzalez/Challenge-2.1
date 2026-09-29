@@ -19,11 +19,11 @@ public class LoginController {
     public List<User> getAllUser() {
         return user_dao.getAllUser();
     }
-    /*
+    
     public boolean insertUser() {
         return user_dao.insertUser();
     }
-    */
+    
     public boolean purchaseGame(File file) {
         return user_dao.purchaseGame(file);
     }
