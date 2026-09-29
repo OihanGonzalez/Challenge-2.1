@@ -1,6 +1,8 @@
 package model;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.sql.*;
 import java.util.ArrayList;
@@ -239,8 +241,10 @@ public class DBImplementationUser implements UserDAO {
     public boolean viewUserGames(File file) {
         List<User> aUsers = new ArrayList<User>();
         ArrayList<Game> aGames = new ArrayList<Game>();
-        int userId;
-        boolean hasGames = false;
+        int userId, i=0;
+        boolean hasGames = false, found=false;
+        String relativePath;
+        File image;
         
         aUsers = getAllUser();
         
@@ -250,6 +254,37 @@ public class DBImplementationUser implements UserDAO {
         }
         System.out.println("Select a user check his library: ");
         userId = Utilities.leerInt(1, aUsers.size());
+        
+        //open user's profile picture
+        while(i<aUsers.size()&&!found){
+            User u=aUsers.get(i);
+            if(u.getIdUser()==userId){
+                relativePath = u.getRoute();
+                
+                if(relativePath != null && !relativePath.trim().isEmpty()){
+                    image = new File(relativePath);
+                    
+                    if(image.exists()){
+                        try{
+                            if(Desktop.isDesktopSupported()){
+                                Desktop.getDesktop().open(image);
+                            }else{
+                                System.out.println("The desktop environment does not support opening files.");
+                            }
+                        }catch(IOException e){
+                            System.out.println("Error openning user's profile picture: "+e.getMessage());
+                        }
+                    }else{
+                        System.out.println("Image not found in route: "+image.getAbsolutePath());
+                    }
+                }else{
+                    System.out.println("The selected user does not have an assigned image route.");
+                }
+            }
+            i++;
+        }
+        
+        //--------------------------
         
         aGames = GameManagement.showGames(file);
         
