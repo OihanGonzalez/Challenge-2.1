@@ -189,14 +189,14 @@ public class GameManagement {
             System.out.println(u.toString());
         }
         System.out.println("Select a user to purchase a game: ");
-        userId = Utilities.leerInt(1, aUsers.size());
+        userId = Utilities.leerInt(1, aUsers.size()) - 1;
         
         System.out.println("\n----------------GAMES-------------");
         showGames(file);
         aGames = getAllGames(file);
         
         System.out.println("Select game to purchase: ");
-        gameId = Utilities.leerInt(1, aGames.size());
+        gameId = Utilities.leerInt(1, aGames.size()) - 1;
         
         if (aGames.get(gameId).getaUser().contains(userId)) {
             System.out.println(aUsers.get(userId).getNameUser() + " already has " + aGames.get(gameId).getGameName() + ".");
@@ -232,7 +232,7 @@ public class GameManagement {
             System.out.println(u.toString());
         }
         System.out.println("Select a user check his library: ");
-        userId = Utilities.leerInt(1, aUsers.size());
+        userId = Utilities.leerInt(1, aUsers.size()) - 1;
         
         aGames = getAllGames(file);
         

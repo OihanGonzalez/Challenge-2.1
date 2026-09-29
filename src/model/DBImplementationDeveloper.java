@@ -157,11 +157,11 @@ public class DBImplementationDeveloper implements DeveloperDAO {
         }
 
         System.out.println("Select a developer to view his games: ");
-        developerId = Utilities.leerInt(1, aDevelopers.size());
+        developerId = Utilities.leerInt(1, aDevelopers.size()) - 1;
         
         GameManagement.showGames(file);
         aGames = GameManagement.getAllGames(file);
-        System.out.println("\n--------- Games developed by Developer ID " + developerId + " -------");
+        System.out.println("\n--------- Games developed by " + aDevelopers.get(developerId).getDeveloperName() + " -------");
 
         for (Game g : aGames) {
             if (g.getDeveloperId() == developerId) {
