@@ -24,14 +24,6 @@ public class LoginController {
         return user_dao.insertUser();
     }
     
-    public boolean purchaseGame(File file) {
-        return user_dao.purchaseGame(file);
-    }
-    
-    public boolean viewUserGames(File file) {
-        return user_dao.viewUserGames(file);
-    }
-    
     public boolean createDeveloper() {
         return developer_dao.createDeveloper();
     }

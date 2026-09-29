@@ -34,7 +34,7 @@ public class Main {
                     cont.createDeveloper();
                     break;
                 case 4:
-                    cont.purchaseGame(file);
+                    GameManagement.purchaseGame(file, cont.getAllUser());
                     break;
                 case 5:
                     GameManagement.showGames(file);
@@ -43,7 +43,7 @@ public class Main {
                     cont.viewDeveloperGames(file);
                     break;
                 case 7:
-                    cont.viewUserGames(file);
+                    GameManagement.viewUserGames(file, cont.getAllUser());
                     break;
             }
         }while(option!=8);

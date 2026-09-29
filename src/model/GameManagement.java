@@ -4,10 +4,12 @@
  */
 package model;
 
+import java.awt.Desktop;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -33,11 +35,16 @@ public class GameManagement {
         DBImplementationDeveloper devDAO = DBImplementationDeveloper.getInstance();
         Developer dev = null;       
         do {
+            
+            for (Developer d : devDAO.getAllDevelopers()) {
+                System.out.println(d);
+            }
+            
             System.out.println("Developer ID:");
             developerId = Utilities.leerInt();
 
             dev = devDAO.getDeveloperById(developerId);
-
+            
             if (dev == null) {
                 System.out.println("Developer not found. Try again.");
             }
@@ -84,7 +91,25 @@ public class GameManagement {
         }
     }
 
-    public static ArrayList<Game> showGames(File fichero) {
+    public static void showGames(File fichero) {
+        if (!fichero.exists()) {
+            System.out.println("There are no games in the file.");
+            return;
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fichero))) {
+            while (true) {
+                Game g = (Game) ois.readObject();
+                System.out.println(g);
+            }
+        } catch (EOFException e) {
+            // Fin del fichero
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static ArrayList<Game> getAllGames(File fichero) {
         if (!fichero.exists()) {
             System.out.println("There are no games in the file.");
             return null;
@@ -95,7 +120,6 @@ public class GameManagement {
             while (true) {
                 Game g = (Game) ois.readObject();
                 aGames.add(g);
-                System.out.println(g);
             }
         } catch (EOFException e) {
             // Fin del fichero
@@ -154,5 +178,103 @@ public class GameManagement {
 
         return lastId + 1;
     }
-
+    
+    public static void purchaseGame(File file, List<User> aUsers) {
+        ArrayList<Game> aGames = new ArrayList<Game>();
+        int userId, gameId;
+        boolean found = false;
+        
+        System.out.println("\n--------------USERS------------");
+        for (User u : aUsers) {
+            System.out.println(u.toString());
+        }
+        System.out.println("Select a user to purchase a game: ");
+        userId = Utilities.leerInt(1, aUsers.size());
+        
+        System.out.println("\n----------------GAMES-------------");
+        showGames(file);
+        aGames = getAllGames(file);
+        
+        System.out.println("Select game to purchase: ");
+        gameId = Utilities.leerInt(1, aGames.size());
+        
+        if (aGames.get(gameId).getaUser().contains(userId)) {
+            System.out.println(aUsers.get(userId).getNameUser() + " already has " + aGames.get(gameId).getGameName() + ".");
+        } else {
+            aGames.get(gameId).getaUser().add(userId);
+            File auxFile = new File("aux.dat");
+            
+            try {
+                FileOutputStream fos = new FileOutputStream(auxFile);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                for (Game g : aGames) {
+                    oos.writeObject(g);
+                }
+                oos.close();
+                file.delete();
+                auxFile.renameTo(file);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println(aGames.get(gameId).getGameName() + " addded to " + aUsers.get(userId).getNameUser() + " library.");
+        }
+    }
+    
+    public static void viewUserGames(File file, List<User> aUsers) {
+        ArrayList<Game> aGames = new ArrayList<Game>();
+        int userId;
+        boolean found = false;
+        String relativePath;
+        File image;
+        
+        System.out.println("\n--------------USERS------------");
+        for (User u : aUsers) {
+            System.out.println(u.toString());
+        }
+        System.out.println("Select a user check his library: ");
+        userId = Utilities.leerInt(1, aUsers.size());
+        
+        aGames = getAllGames(file);
+        
+        for (Game g : aGames) {
+            if (g.getaUser().contains(userId)) {
+                System.out.println(g);
+                found = true;
+            }
+        }
+        
+        if (!found) {
+            System.out.println(aUsers.get(userId).getNameUser() + " has no games.");
+        }
+        
+        //open user's profile picture
+        for(int i = 0; i<aUsers.size()&&!found ; i++){
+            User u=aUsers.get(i);
+            if(u.getIdUser()==userId){
+                relativePath = u.getRoute();
+                found = true;
+                
+                if(relativePath != null && !relativePath.trim().isEmpty()){
+                    image = new File(relativePath);
+                    
+                    if(image.exists()){
+                        try{
+                            if(Desktop.isDesktopSupported()){
+                                Desktop.getDesktop().open(image);
+                                
+                            }else{
+                                System.out.println("The desktop environment does not support opening files.");
+                            }
+                        }catch(IOException e){
+                            System.out.println("Error openning user's profile picture: "+e.getMessage());
+                        }
+                    }else{
+                        System.out.println("Image not found in route: "+image.getAbsolutePath());
+                    }
+                }else{
+                    System.out.println("The selected user does not have an assigned image route.");
+                }
+            }
+        }
+    }
 }

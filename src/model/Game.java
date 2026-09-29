@@ -5,6 +5,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,6 +18,7 @@ public class Game implements Serializable{
     private double price;
     private int stock;
     private GameType type;
+    private ArrayList<Integer> aUser;
     
 
     public Game(int gameId, int developerId, String gameName, double price, int stock, GameType type) {
@@ -26,6 +28,7 @@ public class Game implements Serializable{
         this.price = price;
         this.stock = stock;
         this.type = type;
+        this.aUser = new ArrayList<Integer>();
     }
 
     public int getGameId() {
@@ -76,12 +79,16 @@ public class Game implements Serializable{
         this.developerId = developerId;
     }
 
+    public ArrayList<Integer> getaUser() {
+        return aUser;
+    }
+    
+    public void setaUser(ArrayList<Integer> aUser) {
+        this.aUser = aUser;
+    }
+
     @Override
     public String toString() {
         return "Game{" + "gameId=" + gameId + ", developerId=" + developerId + ", gameName=" + gameName + ", price=" + price + ", stock=" + stock + ", type=" + type + '}';
     }
-    
-    
-    
-    
 }
