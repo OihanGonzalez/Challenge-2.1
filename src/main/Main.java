@@ -15,7 +15,10 @@ public class Main {
         int option;
         LoginController cont = new LoginController();
         File file = new File("vgstore.dat");
-        GameManagement.fillGames(file);
+        
+        if (!file.exists()) {
+            GameManagement.fillGames(file);
+        }
         
         do{
             option=menu();
