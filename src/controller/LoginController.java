@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package controller;
- 
+
 import java.io.File;
 import java.util.List;
 import model.*;
@@ -13,17 +13,18 @@ import model.*;
  * @author etnag
  */
 public class LoginController {
-    UserDAO user_dao = new DBImplementationUser();
-    DeveloperDAO developer_dao = new DBImplementationDeveloper();
-    
+
+    UserDAO user_dao = DBImplementationUser.getInstance();
+    DeveloperDAO developer_dao = DBImplementationDeveloper.getInstance();
+
     public List<User> getAllUser() {
         return user_dao.getAllUser();
     }
-    
+
     public boolean insertUser() {
         return user_dao.insertUser();
     }
-    
+
     public boolean createDeveloper() {
         return developer_dao.createDeveloper();
     }
@@ -35,7 +36,7 @@ public class LoginController {
     public List<Developer> getAllDevelopers() {
         return developer_dao.getAllDevelopers();
     }
-    
+
     public boolean viewDeveloperGames(File file) {
         return developer_dao.viewDeveloperGames(file);
     }
